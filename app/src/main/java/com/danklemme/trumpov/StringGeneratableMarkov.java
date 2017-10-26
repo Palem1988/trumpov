@@ -8,16 +8,16 @@ public final class StringGeneratableMarkov implements GeneratableMarkov {
 
     private final ArrayList<String> markovTexts;
 
-    public StringGeneratableMarkov() {
+    StringGeneratableMarkov() {
         markovTexts = new ArrayList<>();
     }
 
-    public StringGeneratableMarkov(String markovString) {
+    StringGeneratableMarkov(String markovString) {
         markovTexts = new ArrayList<>();
         markovTexts.add(markovString);
     }
 
-    private StringGeneratableMarkov(ArrayList<String> texts) {
+    StringGeneratableMarkov(ArrayList<String> texts) {
         markovTexts = texts;
     }
 
