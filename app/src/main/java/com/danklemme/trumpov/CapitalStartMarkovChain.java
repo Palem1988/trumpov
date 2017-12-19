@@ -1,5 +1,7 @@
 package com.danklemme.trumpov;
 
+import java.util.List;
+
 public class CapitalStartMarkovChain implements MarkovChain {
 
     private final MarkovIterator iterator;
@@ -12,7 +14,7 @@ public class CapitalStartMarkovChain implements MarkovChain {
 
 
     @Override
-    public String chain(String seed, int chainLength) {
+    public List<String> chain(String seed, int chainLength) {
         String capitalStartSeed = seed;
         if (!startsWithUpper(seed)) {
             capitalStartSeed = getCapitalSeed(seed);

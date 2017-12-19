@@ -1,5 +1,8 @@
 package com.danklemme.trumpov;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PeriodEndMarkovChain implements MarkovChain {
 
     private final MarkovIterator iterator;
@@ -11,9 +14,9 @@ public class PeriodEndMarkovChain implements MarkovChain {
     }
 
     @Override
-    public String chain(String seed, int chainLength) {
-        String chain = markovChain.chain(seed, chainLength);
-        if (!chain.endsWith(". ")) {
+    public List<String> chain(String seed, int chainLength) {
+        List<String> chain = markovChain.chain(seed, chainLength);
+        if (!chain.get(chain.size() - 1).endsWith(".")) {
             chain = finishChainWithPeriod(chain);
         }
         return chain;
@@ -24,25 +27,24 @@ public class PeriodEndMarkovChain implements MarkovChain {
         return this.iterator;
     }
 
-    private String finishChainWithPeriod(String previousChain) {
-        String key = getLastKey(previousChain);
-        String newChain = previousChain;
+    private List<String> finishChainWithPeriod(List<String> previousChain) {
+        String seed = getLastSeed(previousChain);
+        List<String> newChain = new ArrayList<>(previousChain);
         boolean endsWithPeriod = false;
         while(!endsWithPeriod) {
-            key = iterator.next(key);
-            newChain = addSeedToChain(key, newChain);
-            if (newChain.endsWith(". ")) {
+            seed = iterator.next(seed);
+            newChain = addSeedToChain(seed, newChain);
+            if (newChain.get(newChain.size() - 1).endsWith(".")) {
                 endsWithPeriod = true;
             }
         }
         return newChain;
     }
 
-    private String addSeedToChain(String seed, String previousChain) {
-        StringBuilder chain = new StringBuilder(previousChain);
-        chain.append(getLastWord(seed));
-        chain.append(" ");
-        return chain.toString();
+    private List<String> addSeedToChain(String seed, List<String> previousChain) {
+        List<String> chain = new ArrayList<>(previousChain);
+        chain.add(getLastWord(seed));
+        return chain;
     }
 
     private String getLastWord(String seed) {
@@ -51,12 +53,12 @@ public class PeriodEndMarkovChain implements MarkovChain {
     }
 
 
-    private String getLastKey(String chain) {
-        int numWordsInKey = iterator.next("").length();  // Gets random key so we know the chain order.
-        String[] splitChain =  chain.split("\\s+");
+    private String getLastSeed(List<String> chain) {
+        // Gets random key so we know the chain order.
+        int numWordsInKey = iterator.next("").split("\\s+").length;
         StringBuilder keyBuilder = new StringBuilder();
-        for (int i=splitChain.length-1-numWordsInKey; i<splitChain.length-1; i++) {
-            keyBuilder.append(splitChain[i]);
+        for (int i=chain.size()-1-numWordsInKey; i<chain.size()-1; i++) {
+            keyBuilder.append(chain.get(i));
             keyBuilder.append(" ");
         }
         return keyBuilder.toString();

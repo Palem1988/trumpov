@@ -2,11 +2,8 @@ package com.danklemme.trumpov;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.renderscript.ScriptGroup;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
-import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;

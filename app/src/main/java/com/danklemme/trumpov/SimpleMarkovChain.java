@@ -1,5 +1,8 @@
 package com.danklemme.trumpov;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SimpleMarkovChain implements MarkovChain {
 
     private final MarkovIterator iterator;
@@ -9,12 +12,12 @@ public class SimpleMarkovChain implements MarkovChain {
     }
 
     @Override
-    public String chain(String seed, int chainLength) {
+    public List<String> chain(String seed, int chainLength) {
         String nextSeed = seed;
-        String chain = nextSeed;  // Start chain out with the seed.
+        List<String> chain = initialChain(seed);
         for (int i=0; i<chainLength; i++) {
             nextSeed = iterator.next(nextSeed);
-            chain = addSeedToChain(nextSeed, chain);
+            chain.add(getLastWord(nextSeed));
         }
         return chain;
     }
@@ -24,12 +27,13 @@ public class SimpleMarkovChain implements MarkovChain {
         return this.iterator;
     }
 
-
-    private String addSeedToChain(String seed, String previousChain) {
-        StringBuilder chain = new StringBuilder(previousChain);
-        chain.append(getLastWord(seed));
-        chain.append(" ");
-        return chain.toString();
+    private List<String> initialChain(String seed) {
+        String[] splitSeed = seed.split("\\s+");
+        List<String> initialChain = new ArrayList<>();
+        for (String word: splitSeed) {
+            initialChain.add(word.replaceAll("\\s+",""));
+        }
+        return initialChain;
     }
 
     private String getLastWord(String seed) {

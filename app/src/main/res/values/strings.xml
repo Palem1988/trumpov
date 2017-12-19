@@ -3,4 +3,13 @@
     <string name="action_settings">Settings</string>
 
     <string name="button_make_text">Trumpov</string>
+    <string name="button_save_text">Save</string>
+
+    <string name="text_type_campaign_speech">campaign_speech</string>
+    <string name="text_type_tweet">tweet</string>
+
+    <string-array name="text_types">
+        <item>@string/text_type_campaign_speech</item>
+        <item>@string/text_type_tweet</item>
+    </string-array>
 </resources>
