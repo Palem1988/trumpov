@@ -7,6 +7,8 @@ import com.danklemme.trumpov.FeedReaderContract.FeedEntry;
 
 /**
  * Created by Dan on 10/27/2017.
+ *
+ * Class that defines the Database contract and creates the tables.
  */
 
 public class FeedReaderDbHelper extends SQLiteOpenHelper {
